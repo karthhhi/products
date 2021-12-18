@@ -11,7 +11,7 @@ const ProductCard = ({product}) => {
   } = product;
   return (
     <div className="productCard_container">
-        <img className="productCard_image" src={`/assets/products/${productImage}`} />
+        <img className="productCard_image" src={`assets/products/${productImage}`} />
         <div className="productCard_badge">
           { isSale && <div className="productCard_badge-sale">Sale</div> }
           { isExclusive && <div className="productCard_badge-exclusive">Exclusive</div> }
