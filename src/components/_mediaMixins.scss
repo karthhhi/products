@@ -1,0 +1,12 @@
+/* For medium laptops/ tablet landscape: */
+@mixin forMediumLaptop {
+    @media (max-width: 992px) { @content; }
+}
+/* For ipad/tablets: */
+@mixin forTablet {
+    @media (max-width: 768px) { @content; }
+}
+/* For mobile phones: */
+@mixin forPhone {
+    @media (max-width: 600px) { @content; }
+}

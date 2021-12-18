@@ -1,9 +1,6 @@
 import React from 'react';
+import Home from './pages/home/Home.jsx';
 
-const App = () => {
-  return (
-      <h3>Hey from react</h3>
-  );
-};
+const App = () => <Home />;
 
 export default App;
