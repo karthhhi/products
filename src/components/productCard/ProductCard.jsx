@@ -12,7 +12,11 @@ const ProductCard = ({product}) => {
   } = product;
   return (
     <div className="productCard_container">
-        <img className="productCard_image" src={`assets/products/${productImage}`} />
+        <img 
+          className="productCard_image" 
+          src={`assets/products/${productImage}`}
+          onError={(e)=>{e.target.src='assets/placeholder.jpg'}}
+        />
         <div className='productCard_section-info'>
           <div className="productCard_badge">
             { isSale && <div className="productCard_badge-sale">Sale</div> }
