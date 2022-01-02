@@ -2,8 +2,7 @@ import React, { Fragment, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux'
 import {
   getProducts,
-  setProducts,
-  sortProducts
+  setProducts
 } from '../../store/slices/productSlice';
 import getAllProducts from '../../utils/getAllProducts';
 import Header from '../../components/header/Header.jsx';
@@ -20,7 +19,10 @@ const Home = () => {
 
   return (
     <Fragment>
-      <Header />
+      <Header
+
+      
+      />
       <ProductList
         products={products}
       />

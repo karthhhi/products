@@ -19,4 +19,11 @@ export const productFilters = [
     }
 ];
 
+export const productSort = [
+    {value:'nameAsc', label: 'Name Ascending'},
+    {value:'nameDesc', label: 'Name Descending'},
+    {value:'priceAsc', label: 'Price Ascending'},
+    {value:'priceDesc', label: 'Price Descending'}
+];
+
 export const productListApiUrl = 'https://api.jsonbin.io/b/5e9fc4a82940c704e1dc7893';

@@ -1,11 +1,17 @@
 import { createSlice } from '@reduxjs/toolkit';
 import getAllProducts from '../../utils/getAllProducts';
-import { productFilters } from '../../appConfigs';
+import { 
+  productFilters,
+  productSort
+} from '../../appConfigs';
 
 const productSlice = createSlice({
   name: 'products',
   initialState: {
     list: [],
+    filteredList: [],
+    filteredType: '',
+    sortedType: ''
   },
   reducers: {
     setProducts: (state, action) => {
@@ -14,6 +20,7 @@ const productSlice = createSlice({
     },
     sortProducts: (state, action) => {
       const sortBy = action.payload;
+      state.sortedType = `Sorted by ${productSort.find(s=> s.value === sortBy)['label']}`;
       switch(sortBy) {
         case 'nameAsc':
           state.filteredList = [...state.filteredList].sort((a,b) => (a.productName > b.productName) ? 1 : ((b.productName > a.productName) ? -1 : 0));
@@ -34,8 +41,9 @@ const productSlice = createSlice({
     filterProducts: (state, action) => {
       const [type, value] = action.payload;
       const selectedFilter = productFilters.find(v => v.type === type);
+      state.sortedType = '';
       if(selectedFilter) {
-        const {apiKey} = selectedFilter;
+        const {apiKey, values} = selectedFilter;
         state.filteredList = state.list.filter((product) => {
           if(Array.isArray(product[apiKey])) {
             return product[apiKey].indexOf(value) !== -1;
@@ -43,8 +51,10 @@ const productSlice = createSlice({
             return product[apiKey].toString() === value;
           }
         });
+        state.filteredType = `Filtered by ${type}: ${Object.keys(values.find(v => Object.values(v)[0].toString() === value))[0]}`; 
       } else {
         state.filteredList = state.list;
+        state.filteredType = '';
       }
     }
   }
@@ -59,6 +69,8 @@ export const {
 
 // Selectors
 export const getProducts = (state) => state.products.filteredList || [];
+export const getFilteredType = (state) => state.products.filteredType || '';
+export const getSortedType = (state) => state.products.sortedType || '';
 
 // Default export reducer
 export default productSlice.reducer;

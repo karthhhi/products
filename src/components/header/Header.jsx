@@ -1,19 +1,35 @@
-import React from 'react';
-import { useDispatch } from 'react-redux'
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 import {
   sortProducts,
   filterProducts,
+  getFilteredType,
+  getSortedType
 } from '../../store/slices/productSlice';
-import { productFilters } from '../../appConfigs';
+import { 
+  productFilters, 
+  productSort
+} from '../../appConfigs';
 import './header.scss';
 
 const Header = ({ }) => {
   const dispatch = useDispatch();
+  const filteredType = useSelector(getFilteredType);
+  const sortedType = useSelector(getSortedType);
+  const [filterValue, setFilterValue] = useState('');
+  const [sortValue, setSortValue] = useState('');
   return (
     <div className="header_container">
-      <div className="header_title">Women's tops</div>
+      <div className="header_title"><a href="/">Women's tops</a></div>
       <div className="header_actions">
-        <select defaultValue="" onChange={e => dispatch(filterProducts(e.target.value.split('--')))}>
+        <select 
+          defaultValue="" 
+          value={filterValue}
+          onChange={e => {
+            setFilterValue(e.target.value);
+            setSortValue('');
+            dispatch(filterProducts(e.target.value.split('--')));
+          }}>
           <option value="" disabled>Filter by</option>
           {productFilters.map(filter =>
             <optgroup key={filter.type} label={filter.label}>
@@ -24,15 +40,33 @@ const Header = ({ }) => {
               )}
             </optgroup>
           )}
-          <option value="">Clear filter</option>
         </select>     
-        <select defaultValue="default" onChange={e => dispatch(sortProducts(e.target.value))}>
-          <option value="default" disabled>Sort by</option>
-          <option value="nameAsc">Sort by Name Ascending</option>
-          <option value="nameDesc">Sort by Name Descending</option>
-          <option value="priceAsc">Sort by Price Ascending</option>
-          <option value="priceDesc">Sort by Price Descending</option>
+        <select 
+          defaultValue="" 
+          value={sortValue}
+          onChange={e => {
+            setSortValue(e.target.value);
+            dispatch(sortProducts(e.target.value));
+          }}
+        >
+          <option value="" disabled>Sort by</option>
+          {productSort.map(s => <option value={s.value}>{s.label}</option>)}
         </select>
+        { (filteredType || sortedType)  &&
+          <div className="header_filter-info">
+            <div>{filteredType}</div>
+            <div>{sortedType}</div>
+            <button 
+              onClick={() => {
+                setFilterValue('');
+                setSortValue('');
+                dispatch(filterProducts([]))
+              }}
+            >
+              X
+            </button>
+          </div>
+        }
       </div>
     </div>
   );
